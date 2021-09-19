@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sample-app
+  namespace: argocd
+spec:
+  destination:
+    namespace: sample-namespace
+    server: https://kubernetets.default.svc
+  project: default
+  source:
+    path: .
+    plugin:
+      env:
+        - name: HELM_CHART_VERSION
+          value: 1.0.0
+        - name: HELM_REPO_URL
+          value: https://charts.bitnami.com/bitnami
+        - name: HELM_REPO_NAME
+          value: bitnami
+        - name: VALUES_FILE
+          value: values-prod.yaml
+      name: helm-resolver
+    repoURL: https://github.com/elouazzany/argocd-helm-next.git
